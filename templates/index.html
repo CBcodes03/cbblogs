@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            {% if posts %}
+                {% for post in posts %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card" style="width: 100%;">
+                            <img class="card-img-top" src="{{ url_for('get_image', filename=post[3]) }}" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ post[1] }}</h5>
+                                <a href="{{ url_for('gotopost', pid=post[0]) }}" class="btn btn-primary">Go to Blog</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+            <h2>no posts yet!</h2>
+            <img src="{{ url_for('get_image', filename='nopost.jpg') }}">
+            {% endif %}
+        </div>
+    </div>
+    <!--about-->
+    <hr>
+    <!-- About 1 - Bootstrap Brain Component -->
+    <section class="py-3 py-md-5">
+        <div class="container" id="about">
+        <div class="row gy-3 gy-md-4 gy-lg-0 align-items-lg-center">
+            <div class="col-12 col-lg-6 col-xl-5">
+            <img class="img-fluid rounded" loading="lazy" src="{{ url_for('get_image', filename='about.jpg') }}" alt="About 1">
+            </div>
+            <div class="col-12 col-lg-6 col-xl-7">
+            <div class="row justify-content-xl-center">
+                <div class="col-12 col-xl-11">
+                <h2 class="mb-3">About</h2>
+                <p class="lead fs-4 text-secondary mb-3">This is a basic blog website with minimalist design and built using flask.</p>
+                <p class="mb-5">A blog website using Flask and SQLite offers a lightweight, easy-to-develop platform where posts can be managed with SQLite's simple database system. Flask's flexibility allows for seamless integration of features, making it a great choice for creating dynamic and customizable blog sites.</p>
+                <div class="row gy-4 gy-md-0 gx-xxl-5X">
+                    <div class="col-12 col-md-6">
+                    <div class="d-flex">
+                        <div class="me-4 text-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-gear-fill" viewBox="0 0 16 16">
+                            <path d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872l-.1-.34zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z" />
+                        </svg>
+                        </div>
+                        <div>
+                        <h2 class="h4 mb-3">Why flask?</h2>
+                        <p class="text-secondary mb-0">Flask is a lightweight and flexible web framework for Python, ideal for building simple to moderately complex web applications quickly. It provides the essentials without imposing strict rules, allowing developers to customize and scale as needed.</p>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                    <div class="d-flex">
+                        <div class="me-4 text-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-fire" viewBox="0 0 16 16">
+                            <path d="M8 16c3.314 0 6-2 6-5.5 0-1.5-.5-4-2.5-6 .25 1.5-1.25 2-1.25 2C11 4 9 .5 6 0c.357 2 .5 4-2 6-1.25 1-2 2.729-2 4.5C2 14 4.686 16 8 16Zm0-1c-1.657 0-3-1-3-2.75 0-.75.25-2 1.25-3C6.125 10 7 10.5 7 10.5c-.375-1.25.5-3.25 2-3.5-.179 1-.25 2 1 3 .625.5 1 1.364 1 2.25C11 14 9.657 15 8 15Z" />
+                        </svg>
+                        </div>
+                        <div>
+                        <h2 class="h4 mb-3">Why sqlite3?</h2>
+                        <p class="text-secondary mb-0">SQLite3 is a lightweight, self-contained, and serverless SQL database engine, ideal for embedded systems and small-scale applications. It stores the entire database in a single file, making it easy to manage and deploy.</p>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        </div>
+    </section>
+    <!-- contact -->
+     <hr>
+    <form class="mb-5" method="post" id="contactForm" name="contactForm" action="https://mail.google.com/mail/u/0/#inbox?compose=VpCqJTCpvHKsnLbJzwwgFPHNJBJtFcDnfGNrdGKstQqspmBTWRNCnqsmXNGsBfTjBPmBfKB">
+    <div class="content" id="contact">
+        <div class="container">
+        <div class="row">
+        <div class="col-md-5 mr-auto">
+        <h2>Contact Us</h2>
+        <p class="mb-5">Contact on the official mail id for this website cbblogs@gmail.com</p>
+        <ul class="list-unstyled pl-md-5 mb-5">
+        <li class="d-flex text-black mb-2">
+        <span class="mr-3"><span class="icon-map"></span></span> somewhere in NewDelhi<br> India
+        </li>
+        <li class="d-flex text-black"><span class="mr-3"><span class="icon-envelope-o"></span><a href="https://www.linkedin.com/in/chirag-budakoti-212902263">www.linkedin.com/in/chirag-budakoti-212902263</a></span></li>
+        </ul>
+        </div>
+        <div class="col-md-6">
+        <form class="mb-5" method="post" id="contactForm" name="contactForm" novalidate="novalidate">
+        <div class="row">
+        <div class="col-md-12 form-group">
+        <label for="name" class="col-form-label">Name</label>
+        <input type="text" class="form-control" name="name" id="name">
+        </div>
+        </div>
+        <div class="row">
+        <div class="col-md-12 form-group">
+        <label for="email" class="col-form-label">Email</label>
+        <input type="text" class="form-control" name="email" id="email">
+        </div>
+        </div>
+        <div class="row">
+        <div class="col-md-12 form-group">
+        <label for="message" class="col-form-label">Message</label>
+        <textarea class="form-control" name="message" id="message" cols="30" rows="7"></textarea>
+        </div>
+        </div>
+        <div class="row">
+        <div class="col-md-12">
+        <input type="submit" value="Send Message" class="btn btn-primary rounded-0 py-2 px-4">
+        <span class="submitting"></span>
+        </div>
+        </div>
+        </form>
+        <div id="form-message-warning mt-4"></div>
+        </div>
+        </div>
+        </div>
+        </div>
+        <script src="js/jquery-3.3.1.min.js"></script>
+        <script src="js/popper.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/jquery.validate.min.js"></script>
+        <script src="js/main.js"></script>
+        <script defer="" src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon="{&quot;rayId&quot;:&quot;8b327a5dbcd32b0d&quot;,&quot;serverTiming&quot;:{&quot;name&quot;:{&quot;cfL4&quot;:true}},&quot;version&quot;:&quot;2024.8.0&quot;,&quot;token&quot;:&quot;cd0b4b3a733644fc843ef0b185f98241&quot;}" crossorigin="anonymous"></script>
+    </div>
+    </form>
+{% endblock %}

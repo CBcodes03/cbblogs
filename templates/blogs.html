@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2>{{ post[1] }}</h2>
+    {% if session['current_user'] %}
+      {% if session['current_user']['username']=='admin' %}
+        <form action="{{ url_for('del_post', pid=post[0]) }}" method="POST">
+          <button type="submit">Delete</button>
+        </form>
+      {% else %}
+      {% endif %}
+    {% else %}
+    {% endif %}
+    <div style="text-align: center;"><img src="{{ url_for('get_image', filename=post[3]) }}" style="max-width: 100%; height: 100%;"></div>
+    <p class="date">POSTED ON: {{ post[2] }}</p>
+    {{ post[4] }}
+    <hr>
+    <h1>Comments</h1>
+    <!-- comments here-->
+    {% for c in comments %}
+      <div class="row d-flex justify-content-center">
+        <div class="col-md-11 col-lg-9 col-xl-12">
+          <div class="d-flex flex-start mb-4">
+            <div class="card w-100">
+              <div class="card-body p-4">
+                  <h5>{{c[2]}}</h5>
+                  {% if session['current_user'] %}
+                    {% if session['current_user']['username']=='admin' or session['current_user']['username']==c[2] %}
+                      <form action="{{ url_for('del_comment', id=c[0]) }}" method="POST">
+                        <button type="submit">Delete</button>
+                      </form>
+                    {% else %}
+                    {% endif %}
+                  {% else %}
+                  {% endif %}
+                  <p class="small">{{c[4]}}</p>
+                  <p>
+                    {{c[3]}}
+                  </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+    <hr>
+    {% if session['current_user'] %}
+    <div class="comments">
+        <form action="{{ url_for('gotopost', pid=post[0])}}" method="post">
+              <div class="form-group">
+                <h1><label for="form-control">Comment</label></h1>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="body"></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary">Post</button>
+            </fieldset>
+        </form>     
+    </div>
+    {% else %}
+    <h1>sign in to Comment</h1>
+    {% endif %}
+{% endblock %}
