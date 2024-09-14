@@ -16,7 +16,7 @@ build()
 def pushing_func():
     os.system("git add .")
     os.system(f"git commit -m '{datetime.datetime.now()}'")
-    os.system("git push -u origin main")
+    os.system("git push -u origin local")
     return None
 
 def pulling_func():
