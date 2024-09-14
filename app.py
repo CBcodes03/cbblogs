@@ -268,7 +268,6 @@ def admin():
             link=url_for('gotopost', pid=res, _external=True)
             verify.new_post_notify(link)
             flash("post created!","sucess")
-            setup.pushing_func()
             return redirect(url_for('admin'))
         else:
             flash("post not created file error","error")
@@ -289,6 +288,17 @@ def gotopost(pid):
             create_comment(pid, un, body)
             cmnts = getcomments(pid)  
     return render_template('blogs.html', post=res, comments=cmnts)
+
+#manage achitecture
+@app.route('/push_changes')
+def pushfromsite():
+    setup.pushing_func()
+    return redirect(url_for('admin'))
+
+@app.route('/pull_changes')
+def pullfromgit():
+    setup.pulling_func()
+    return redirect(url_for('admin'))
 
 if __name__ == '__main__':
     app.run(debug=True) 
