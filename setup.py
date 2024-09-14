@@ -7,6 +7,7 @@ def build():
     os.system("git config --global user.name 'CBcodes03'")
     os.system("git config --global user.email 'chiragbudakoti12334@gmail.com'")
     os.system("git init")
+    os.system("git checkout local")
     os.system("git add .")
     os.system("git commit -m 'git setup-done'")
     # Secure token retrieval from environment variable
@@ -19,6 +20,7 @@ def build():
     return None
 
 def pushing_func():
+    os.system("git checkout local")
     os.system("git add .")
     os.system(f"git commit -m '{datetime.datetime.now()}'")
     os.system("git push -u origin local")  # Push to 'local' branch
