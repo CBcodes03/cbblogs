@@ -14,11 +14,11 @@
             <input type="submit" value="Submit">
         </form>
         <h2>Additional Actions</h2>
-        <form action="{{url_for('push_changes')}}" method="post">
+        <form action="{{url_for('pushfromsite')}}" method="post">
             <input type="submit" value="Push Changes">
         </form>
     
-        <form action="{{url_for('pull_changes')}}" method="post">
+        <form action="{{url_for('pullfromgit')}}" method="post">
             <input type="submit" value="Pull Changes">
         </form>
     {% endblock %}

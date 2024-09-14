@@ -290,12 +290,12 @@ def gotopost(pid):
     return render_template('blogs.html', post=res, comments=cmnts)
 
 #manage achitecture
-@app.route('/push_changes')
+@app.route('/push_changes', methods=['POST'])
 def pushfromsite():
     setup.pushing_func()
     return redirect(url_for('admin'))
 
-@app.route('/pull_changes')
+@app.route('/pull_changes', methods=['POST'])
 def pullfromgit():
     setup.pulling_func()
     return redirect(url_for('admin'))
