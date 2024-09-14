@@ -252,7 +252,7 @@ def allowed_file(filename):
 def admin():
     if request.method == "GET":
         if 'current_user' in session and session['current_user']['username'] == 'admin':
-            setup.pulling_func()
+            #setup.pulling_func()
             return render_template('admin.html')
         else:
             return redirect(url_for('index'))
