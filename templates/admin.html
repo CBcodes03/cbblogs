@@ -1,0 +1,214 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="page-title">Create a Post</h1>
+
+<form action="{{ url_for('admin') }}" method="post" enctype="multipart/form-data" id="postForm">
+
+    <label for="title" class="label-main">Post Title:</label>
+    <input type="text" id="title" name="title" class="input-main" required>
+
+    <div id="content-sections"></div>
+
+    <!-- Add block controls -->
+    <div class="add-section-container">
+        <select id="blockType" class="select-type">
+            <option value="heading">Heading</option>
+            <option value="subheading">Subheading</option>
+            <option value="text">Text</option>
+            <option value="code">Code</option>
+            <option value="image">Image</option>
+            <option value="video">Video</option>
+        </select>
+
+        <button type="button" class="btn-add" onclick="addBlock()">+ Add Section</button>
+    </div>
+
+    <button type="submit" class="btn-submit">Submit Post</button>
+</form>
+
+<!-- Styling -->
+<style>
+    .page-title {
+        font-size: 2rem;
+        margin-bottom: 25px;
+        font-weight: 700;
+        color: #fff;
+        text-align: center;
+    }
+
+    .label-main {
+        font-weight: 600;
+        color: #ddd;
+    }
+
+    .input-main {
+        width: 100%;
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid #444;
+        background: #222;
+        color: #fff;
+        margin-bottom: 20px;
+    }
+
+    .block {
+        padding: 18px;
+        border-radius: 12px;
+        margin-bottom: 20px;
+        animation: fadeIn 0.3s ease-in-out;
+        border-left: 6px solid;
+        background: #1c1c1c;
+        box-shadow: 0px 0px 8px #000;
+    }
+
+    /* Color coding */
+    .block-heading { border-color: #ff8c00; }
+    .block-subheading { border-color: #00b7ff; }
+    .block-text { border-color: #6bff77; }
+    .block-code { border-color: #b95cff; background: #1a1025; }
+    .block-image { border-color: #ff5f5f; }
+    .block-video { border-color: #ffd22e; }
+
+    .block label {
+        font-weight: bold;
+        margin-bottom: 5px;
+        display: block;
+        color: #eee;
+    }
+
+    .remove-btn {
+        background: #ff3b3b;
+        border: none;
+        padding: 6px 12px;
+        margin-top: 8px;
+        border-radius: 8px;
+        cursor: pointer;
+        color: white;
+        font-weight: 600;
+        float: right;
+    }
+
+    .remove-btn:hover {
+        background: #c20101;
+    }
+
+    textarea, input[type="text"], input[type="file"] {
+        width: 100%;
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid #555;
+        margin-top: 8px;
+        background: #2a2a2a;
+        color: #fff;
+    }
+
+    .add-section-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 25px 0;
+    }
+
+    .select-type {
+        padding: 10px;
+        border-radius: 8px;
+        background: #222;
+        border: 1px solid #444;
+        color: white;
+    }
+
+    .btn-add {
+        background: #4CAF50;
+        padding: 10px 18px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        color: #fff;
+        font-weight: 600;
+        transition: 0.2s;
+    }
+
+    .btn-add:hover {
+        background: #3b8d3e;
+    }
+
+    .btn-submit {
+        width: 100%;
+        padding: 12px;
+        background: #007bff;
+        border: none;
+        border-radius: 10px;
+        color: white;
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin-top: 30px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .btn-submit:hover {
+        background: #005fcc;
+    }
+
+    @keyframes fadeIn {
+        from {opacity: 0; transform: translateY(10px);}
+        to   {opacity: 1; transform: translateY(0);}
+    }
+</style>
+
+<script>
+let sectionCount = 0;
+
+function addBlock() {
+    const type = document.getElementById("blockType").value;
+    const container = document.getElementById("content-sections");
+
+    sectionCount++;
+
+    let block = document.createElement("div");
+    block.className = `block block-${type}`;
+
+    let html = "";
+    if (type === "heading") {
+        html = `
+            <label>Heading:</label>
+            <input type="text" name="sections[${sectionCount}][heading]" required>
+        `;
+    }
+    else if (type === "subheading") {
+        html = `
+            <label>Subheading:</label>
+            <input type="text" name="sections[${sectionCount}][subheading]" required>
+        `;
+    }
+    else if (type === "text") {
+        html = `
+            <label>Text:</label>
+            <textarea name="sections[${sectionCount}][text]" rows="4" required></textarea>
+        `;
+    }
+    else if (type === "code") {
+        html = `
+            <label>Code:</label>
+            <textarea name="sections[${sectionCount}][code]" rows="6" placeholder="Write your code here..."></textarea>
+        `;
+    }
+    else if (type === "image") {
+        html = `
+            <label>Upload Image:</label>
+            <input type="file" name="sections[${sectionCount}][image]" accept="image/*">
+        `;
+    }
+    else if (type === "video") {
+        html = `
+            <label>Upload Video:</label>
+            <input type="file" name="sections[${sectionCount}][video]" accept="video/*">
+        `;
+    }
+
+    block.innerHTML = html + `<button type="button" class="remove-btn" onclick="this.parentElement.remove()">Remove</button>`;
+    container.appendChild(block);
+}
+</script>
+
+{% endblock %}

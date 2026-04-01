@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %} 
+    {% block msg %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for i in messages%}
+                <div class="message-box">
+                    <p>{{i}}</p>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    {% endblock %}
+<div>
+    <form id="verify_otp" action="{{url_for('sverify')}}" method="post">
+        <label>Enter the OTP sent to your email:</label>
+        <input type="text" name="otp">
+        <button type="submit">Submit</button>
+    </form>
+</div>
+{% endblock %}

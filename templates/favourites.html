@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container my-5">
+    <h2 class="mb-4">Your Favourite Posts</h2>
+    {% if favourites %}
+        <div class="row">
+            {% for fav in favourites %}
+                <div class="col-md-4 mb-4" style="gap: 10px;">
+                    <button class="btn btn-danger mb-2" onclick="location.href='{{ url_for('remove_favourite', pid=fav[0]) }}'">Remove from Favourites</button>
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ fav[1] }}</h5>
+                            <p class="card-text">{{ fav[2]|truncate(100) }}</p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="{{ url_for('gotopost', pid=fav[0]) }}" class="btn btn-primary">Read More</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>You have no favourite posts yet. Start adding some!</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,275 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+  /* Blog Layout */
+  .post-container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  /* Title & Date */
+  .post-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #f1f3f8;
+    margin-bottom: 0.5rem;
+  }
+
+  .post-date {
+    color: #a9acb6;
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
+  }
+
+  /* Text content */
+  .post-section h2 {
+    font-size: 1.75rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: #f0f2f6;
+  }
+
+  .post-section h3 {
+    font-size: 1.4rem;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+    color: #dce0e8;
+  }
+
+  .post-section p {
+    color: #d5d8e1;
+    line-height: 1.8;
+    font-size: 1.05rem;
+    margin-bottom: 1.25rem;
+  }
+
+  pre code {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 1rem;
+    display: block;
+    border-radius: 6px;
+    font-family: "Courier New", monospace;
+    font-size: 0.95rem;
+    overflow-x: auto;
+    color: #e8eaf0;
+  }
+
+  img, video {
+    border-radius: 6px;
+    margin: 1.5rem 0;
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Comments */
+  h1 {
+    font-size: 1.8rem;
+    color: #f1f3f8;
+    margin-top: 3rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .comment-card {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 1.25rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+  }
+
+  .comment-card h5 {
+    color: #fff;
+    font-size: 1.1rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .comment-card p.small {
+    color: #a3a6af;
+    font-size: 0.85rem;
+  }
+
+  .comment-card p {
+    color: #e4e6ed;
+    margin-top: 0.75rem;
+  }
+
+  /* Buttons */
+  .btn-delete, .btn-comment , .btn-favourite {
+    background: #007bff;
+    border: none;
+    color: white;
+    padding: 0.4rem 1rem;
+    border-radius: 4px;
+    font-size: 0.95rem;
+    transition: background 0.3s ease;
+  }
+
+  .btn-delete {
+    background: #dc3545;
+  }
+
+  .btn-delete:hover {
+    background: #b02a37;
+  }
+
+  .btn-comment:hover {
+    background: #0056b3;
+  }
+
+  .btn-favourite {
+    background: #e608ee;
+  }
+
+  .btn-favourite:hover {
+    background: #b006b3;
+  }
+
+  textarea.form-control {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #fff;
+    font-size: 1rem;
+  }
+
+  textarea.form-control:focus {
+    border-color: #007bff;
+    box-shadow: none;
+  }
+
+  hr {
+    border-color: rgba(255, 255, 255, 0.1);
+    margin: 2rem 0;
+  }
+
+/* Heading */
+.sec-heading {
+  color: var(--white);
+  font-size: 2rem;
+  font-weight: 700;
+  border-left: 4px solid var(--white);
+  padding-left: 12px;
+}
+
+/* Subheading */
+.sec-subheading {
+  color: var(--white-soft);
+  font-size: 1.4rem;
+  font-weight: 600;
+  border-left: 3px solid var(--gray-muted);
+  padding-left: 10px;
+}
+
+/* Paragraph */
+.sec-text {
+  color: var(--white-soft);
+  font-size: 1.05rem;
+  line-height: 1.8;
+}
+
+/* Code Block */
+.sec-code {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-soft);
+  padding: 16px;
+  border-radius: 12px;
+  overflow-x: auto;
+  color: var(--white);
+  box-shadow: var(--shadow-soft);
+  font-size: 0.95rem;
+}
+
+/* Image */
+.sec-image img {
+  max-width: 100%;
+  border-radius: 14px;
+  border: 1px solid var(--border-soft);
+  box-shadow: var(--shadow-soft);
+}
+
+/* Video */
+.sec-video video {
+  width: 100%;
+  border-radius: 14px;
+  border: 1px solid var(--border-soft);
+  box-shadow: var(--shadow-soft);
+}
+
+
+</style>
+
+<div class="post-container">
+  <h2 class="post-title">{{ post[1] }}</h2>
+
+  {% if session['current_user'] and session['current_user']['is_admin'] == True %}
+    <form action="{{ url_for('del_post', pid=post[0]) }}" method="POST" style="margin-bottom: 1rem;">
+      <button type="submit" class="btn-delete">Delete Post</button>
+      <button type="submit" class="btn-favourite" formaction="{{ url_for('add_favourite', post_id=post[0]) }}">Add to Favourites</button>
+    </form>
+  {% endif %}
+
+  <p class="post-date">Posted on {{ post[2] }}</p>
+
+  <div class="post-section">
+    {% for sec in sections %}
+      {% if sec[0] == "heading" %}
+        <h2 class="sec-heading">{{ sec[1] }}</h2>
+
+      {% elif sec[0] == "subheading" %}
+        <h3 class="sec-subheading">{{ sec[1] }}</h3>
+
+      {% elif sec[0] == "text" %}
+        <p class="sec-text">{{ sec[1] }}</p>
+
+      {% elif sec[0] == "code" %}
+        <pre class="sec-code"><code>{{ sec[1] }}</code></pre>
+
+      {% elif sec[0] == "image" %}
+        <div class="sec-image text-center">
+          <img src="{{ url_for('get_image', filename=sec[2]) }}" alt="Image">
+        </div>
+
+      {% elif sec[0] == "video" %}
+        <div class="sec-video text-center">
+          <video controls>
+            <source src="{{ url_for('get_image', filename=sec[2]) }}">
+          </video>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+
+  <hr>
+
+  <h1>Comments</h1>
+
+  {% for c in comments %}
+  <div class="comment-card">
+    <h5>{{ c[2] }}</h5>
+    <p class="small">{{ c[4] }}</p>
+    <p>{{ c[3] }}</p>
+
+    {% if session['current_user'] and (session['current_user']['is_admin'] == True or session['current_user']['username']==c[2]) %}
+      <form action="{{ url_for('del_comment', id=c[0]) }}" method="POST">
+        <button type="submit" class="btn-delete">Delete</button>
+      </form>
+    {% endif %}
+  </div>
+  {% endfor %}
+
+  <hr>
+
+  {% if session['current_user'] %}
+  <div class="comments">
+    <form action="{{ url_for('gotopost', pid=post[0])}}" method="post">
+      <div class="form-group mb-3">
+        <label for="form-control" style="font-size:1.2rem;">Comment</label>
+        <textarea class="form-control" rows="3" name="body" placeholder="Write your comment here..."></textarea>
+      </div>
+      <button type="submit" class="btn-comment">Post</button>
+    </form>
+  </div>
+  {% else %}
+  <h2 style="text-align:center;">Sign in to Comment</h2>
+  {% endif %}
+</div>
+{% endblock %}
