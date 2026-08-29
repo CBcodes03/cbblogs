@@ -1,0 +1,542 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+/* ===============================
+   CARD STYLES – MONOCHROME GLASS
+================================ */
+.custom-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 18px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(12px);
+  color: #e5e7eb;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.custom-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.85);
+}
+
+/* ===============================
+   CARD IMAGE
+================================ */
+.fixed-img {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  transition: transform 0.4s ease;
+}
+
+.custom-card:hover .fixed-img {
+  transform: scale(1.06);
+}
+
+/* ===============================
+   TITLE OVERLAY
+================================ */
+.title-overlay {
+  position: absolute;
+  bottom: 60px;
+  left: 0;
+  width: 100%;
+  padding: 1.25rem 1rem;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.95),
+    rgba(0, 0, 0, 0.75),
+    transparent
+  );
+  text-align: center;
+}
+
+.title-overlay h5 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #ffffff;
+  line-height: 1.4;
+}
+
+/* ===============================
+   CARD FOOTER / BUTTON
+================================ */
+.card-footer {
+  margin-top: auto;
+  padding: 1.25rem;
+  background: transparent;
+  border: none;
+}
+
+.card-footer .btn {
+  width: 100%;
+  background: #ffffff;
+  color: #000000;
+  border-radius: 999px;
+  padding: 0.75rem 2rem;
+  font-weight: 600;
+  border: none;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.card-footer .btn:hover {
+  background: #e5e7eb;
+  transform: translateY(-2px);
+}
+
+/* ===============================
+   SEARCH BAR
+================================ */
+.search-container {
+  margin: 2.5rem auto;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  max-width: 700px;
+  padding: 0 1rem;
+}
+
+.search-input {
+  flex: 1;
+  padding: 0.9rem 1.5rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(0, 0, 0, 0.85);
+  color: #e5e7eb;
+  font-size: 15px;
+}
+
+.search-input::placeholder {
+  color: #9ca3af;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.15);
+}
+
+#searchBtn {
+  padding: 0.9rem 2.5rem;
+  border-radius: 999px;
+  border: none;
+  background: #ffffff;
+  color: #000000;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+#searchBtn:hover {
+  background: #e5e7eb;
+  transform: translateY(-2px);
+}
+
+/* ===============================
+   SECTION TITLES
+================================ */
+.section-title {
+  font-size: 2.4rem;
+  font-weight: 700;
+  margin-bottom: 2.5rem;
+  color: #ffffff;
+  text-align: center;
+  position: relative;
+}
+
+.section-title::after {
+  content: "";
+  position: absolute;
+  bottom: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 2px;
+}
+
+/* ===============================
+   DIVIDER
+================================ */
+hr {
+  border: none;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.15);
+  margin: 4rem 0;
+}
+
+/* ===============================
+   ABOUT SECTION
+================================ */
+#about img {
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+}
+
+#about h2 {
+  color: #ffffff;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+/* ===============================
+   NO POSTS
+================================ */
+.no-posts {
+  text-align: center;
+  padding: 3rem 0;
+}
+
+.no-posts h2 {
+  color: #9ca3af;
+}
+
+.no-posts img {
+  max-width: 400px;
+  opacity: 0.6;
+  border-radius: 18px;
+}
+
+/* ===============================
+   SEARCH OVERLAY
+================================ */
+/* ===== SEARCH OVERLAY FIX ===== */
+
+.search-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(6px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+/* Centered panel with strict height control */
+.overlay-content {
+    background: rgba(20, 20, 20, 0.95);
+    color: #ffffff;
+    width: 90%;
+    max-width: 600px;
+    max-height: 80vh;              /* 🔑 HARD LIMIT */
+    padding: 1.75rem;
+    border-radius: 16px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;              /* 🔑 PREVENT CUT ISSUE */
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+}
+
+/* Title stays fixed */
+.overlay-content h5 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #ffffff;
+    flex-shrink: 0;
+}
+
+/* Scrollable results list */
+#resultsList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    overflow-y: auto;              /* 🔑 SCROLL HERE */
+    flex-grow: 1;                  /* 🔑 TAKE REMAINING SPACE */
+}
+
+/* Individual result item */
+#resultsList li {
+    padding: 0.9rem 1.1rem;
+    margin-bottom: 0.6rem;
+    background: rgba(40, 40, 40, 0.9);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+}
+
+#resultsList li:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateX(6px);
+}
+
+/* Close button */
+.close-btn {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 20px;
+    color: #ffffff;
+    transition: all 0.3s ease;
+}
+
+.close-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: rotate(90deg);
+}
+
+/* Scrollbar (clean black/white) */
+#resultsList::-webkit-scrollbar {
+    width: 6px;
+}
+
+#resultsList::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 10px;
+}
+
+#resultsList::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* ===============================
+   CLOSE BUTTON
+================================ */
+.close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.close-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.hidden {
+    display: none !important;
+}
+
+
+/* ===============================
+   RESPONSIVE
+================================ */
+@media (max-width: 768px) {
+  .search-container {
+    flex-direction: column;
+  }
+
+  .search-input,
+  #searchBtn {
+    width: 100%;
+  }
+
+  .section-title {
+    font-size: 2rem;
+  }
+}
+</style>
+
+
+<!-- Search Section -->
+<div class="search-container">
+    <input id="searchBox" type="text" placeholder="Search posts..." class="search-input" />
+    <button id="searchBtn">
+        <i class="bi bi-search me-2"></i>Search
+    </button>
+</div>
+
+<!-- Search Overlay -->
+<div id="searchOverlay" class="search-overlay hidden">
+    <div class="overlay-content">
+        <span id="closeOverlay" class="close-btn">&times;</span>
+        <h5><i class="bi bi-search me-2"></i>Search Results</h5>
+        <ul id="resultsList"></ul>
+    </div>
+</div>
+
+<!-- Blog Posts Section -->
+<div id="posts">
+    <div class="row">
+        {% if posts %}
+            {% for post, sections in posts %}
+                {% set ns = namespace(found_image=None) %}
+                {% for section in sections %}
+                    {% if section[2] == 'image' and section[4] and ns.found_image == None %}
+                        {% set ns.found_image = section[4] %}
+                    {% endif %}
+                {% endfor %}
+
+                <div class="col-lg-4 col-md-6 mb-4 d-flex">
+                    <div class="card custom-card w-100">
+                        {% if ns.found_image %}
+                            <img src="{{ url_for('get_image', filename=ns.found_image) }}" 
+                                 alt="Post image" class="card-img fixed-img">
+                        {% else %}
+                            <img src="{{ url_for('get_image', filename='default.jpg') }}" 
+                                 alt="Default image" class="card-img fixed-img">
+                        {% endif %}
+
+                        <div class="title-overlay">
+                            <h5 class="card-title">{{ post[1] }}</h5>
+                        </div>
+
+                        <div class="card-footer text-center">
+                            <a href="{{ url_for('gotopost', pid=post[0]) }}" class="btn btn-primary">
+                                <span>Read More</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="no-posts">
+                <h2>No posts yet!</h2>
+                <img src="{{ url_for('get_image', filename='nopost.jpg') }}" alt="No posts">
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<hr>
+
+<!-- About Section -->
+<div id="about">
+    <h2 class="section-title">About CB-Blogs</h2>
+    <section class="py-3 py-md-5">
+        <div class="row gy-4 gy-lg-0 align-items-lg-center">
+            <div class="col-12 col-lg-6 col-xl-5">
+                <img class="img-fluid" loading="lazy" src="{{ url_for('get_image', filename='developer.webp') }}" alt="About">
+            </div>
+            <div class="col-12 col-lg-6 col-xl-7">
+                <p class="lead fs-5 mb-4" style="color: #c5cad5;">
+                    CB Blogs is a simple yet impactful blogging platform built to share ideas, tutorials, and stories that inspire creativity and learning.
+                </p>
+                <p class="mb-3" style="color: #a8adb8;">
+                    The website is designed with a minimalist approach using <strong style="color: #00bfff;">Flask</strong> and <strong style="color: #00bfff;">SQLite</strong>, focusing on performance and readability. 
+                    It's a space where technology meets expression — from coding and development insights to thoughts on innovation and growth.
+                </p>
+                <p class="mb-3" style="color: #a8adb8;">
+                    CB Blogs aims to create a digital corner for developers, learners, and curious minds who love exploring how ideas can turn into reality through code and creativity.
+                </p>
+                <p style="color: #a8adb8;">
+                    Hi, I'm <strong style="color: #fff;">Chirag Budakoti</strong> — a passionate developer, tech enthusiast, and the creator of CB Blogs. 
+                    I enjoy building applications, exploring new technologies, and writing about everything I learn along the way. 
+                    This platform reflects my journey in software development and my goal to help others learn and grow in the process.
+                </p>
+            </div>
+        </div>
+    </section>
+</div>
+
+<hr>
+
+<!-- Contact Section -->
+<div id="contact">
+    <h2 class="section-title">Get In Touch</h2>
+    <p class="mb-5 text-center" style="color: #c5cad5; font-size: 1.1rem;">
+        Have feedback, suggestions, or just want to say hi?  
+        Feel free to drop a message below or reach out directly at  
+        <strong style="color: #00bfff;">cbblogs58@gmail.com</strong> — I'd love to hear from you!
+    </p>
+    <div class="row">
+        <div class="col-md-5">
+            <img class="img-fluid rounded mb-3" loading="lazy" src="{{ url_for('get_image', filename='nc.png') }}" alt="Contact" style="border-radius: 16px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);">
+        </div>
+        <div class="col-md-7">
+            <form method="post">
+                <div class="form-group mb-3">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" name="name" id="name" placeholder="Your name" required>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" name="email" id="email" placeholder="your@email.com" required>
+                </div>
+                <div class="form-group mb-4">
+                    <label for="message">Message</label>
+                    <textarea class="form-control" name="message" id="message" rows="5" placeholder="Share your thoughts..." required></textarea>
+                </div>
+                <input type="submit" value="Send Message" class="btn btn-primary">
+            </form>
+        </div>
+    </div>
+    <p class="mt-4 text-center" style="color: #7a8192;">
+        💬 Whether it's collaboration, bug reports, or just a "hey, I liked that post" —  
+        every message gets read (and probably a smile on the other end 😄).
+    </p>
+</div>
+
+<script>
+const searchBox = document.getElementById("searchBox");
+const searchBtn = document.getElementById("searchBtn");
+const overlay = document.getElementById("searchOverlay");
+const resultsList = document.getElementById("resultsList");
+const closeOverlay = document.getElementById("closeOverlay");
+
+function showOverlay() {
+    overlay.classList.remove("hidden");
+    setTimeout(() => searchBox.focus(), 100);
+}
+
+function hideOverlay() {
+    overlay.classList.add("hidden");
+    resultsList.innerHTML = "";
+    searchBox.value = "";
+}
+
+searchBtn.addEventListener("click", showOverlay);
+closeOverlay.addEventListener("click", hideOverlay);
+document.addEventListener("keydown", e => { 
+    if (e.key === "Escape") hideOverlay(); 
+});
+overlay.addEventListener("click", e => { 
+    if (e.target === overlay) hideOverlay(); 
+});
+
+searchBox.addEventListener("input", () => {
+    let query = searchBox.value.trim();
+    if (query.length > 1) {
+        fetch(`/search?query=${encodeURIComponent(query)}`)
+            .then(res => res.json())
+            .then(data => {
+                resultsList.innerHTML = "";
+                if (Object.keys(data).length === 0) {
+                    resultsList.innerHTML = "<li style='text-align: center; color: #7a8192;'>No results found</li>";
+                } else {
+                    for (let title in data) {
+                        let li = document.createElement("li");
+                        li.innerHTML = `<i class="bi bi-file-text me-2"></i>${title}`;
+                        li.onclick = () => window.location.href = `/post${data[title]}`;
+                        resultsList.appendChild(li);
+                    }
+                }
+            })
+            .catch(err => {
+                console.error("Search error:", err);
+                resultsList.innerHTML = "<li style='text-align: center; color: #e74c3c;'>Error loading results</li>";
+            });
+    } else {
+        resultsList.innerHTML = "";
+    }
+});
+</script>
+{% endblock %}

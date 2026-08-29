@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="auth-container text-center">
+  <h2 style="color:#fff; font-weight:600;">Forgot Password</h2>
+  <p style="color:#bbb;">Enter your registered email to receive an OTP for password reset.</p>
+  <form method="POST" class="mt-4" style="max-width:400px; margin:auto;">
+    <div class="mb-3">
+      <input type="email" class="form-control text-center" name="email" placeholder="Enter your email" required 
+        style="background:rgba(255,255,255,0.07); border:none; color:#fff;">
+    </div>
+    <button type="submit" class="btn btn-primary w-100" 
+      style="background:#007bff; border:none; padding:0.6rem; font-weight:500;">
+      Send OTP
+    </button>
+  </form>
+</div>
+{% endblock %}
