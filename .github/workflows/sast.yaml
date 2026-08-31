@@ -1,0 +1,33 @@
+name: SAST (Static Application Security Testing)
+
+on:
+  workflow_run:
+    workflows: ["linting"]
+    types:
+      - completed
+
+jobs:
+  semgrep-sast:
+    name: Semgrep Code Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the code
+        uses: actions/checkout@v4
+
+      - name: Run Semgrep SAST
+        uses: semgrep/semgrep-action@v1
+        with:
+          config: p/security-audit 
+          # OPTION A: Fail the build on 'error' findings (Default behavior, but good to make explicit)
+          failOn: 'error' 
+          
+          # OPTION B: Uncomment the line below instead if you want to stop the workflow 
+          # for BOTH 'warning' and 'error' severities:
+          # failOn: 'warning'
+
+      - name: Upload SARIF results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: semgrep.sarif
+        if: always() # Ensures the scan report uploads even if vulnerabilities are found

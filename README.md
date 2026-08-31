@@ -99,3 +99,9 @@ If you like this project:
 ---
 
 💡 *A personal blog — but with the power of a platform.*
+
+---
+
+## helm support added!
+
+- helm install cbblogs ./cbblogs --set mysql.password=$dbpass

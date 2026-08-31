@@ -1,0 +1,37 @@
+replicaCount: 2
+
+image:
+  repository: cbblogs-app
+  tag: local
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 4000
+
+autoscaling:
+  minReplicas: 1
+  maxReplicas: 4
+  targetCPUUtilizationPercentage: 60
+  targetMemoryUtilizationPercentage: 80
+
+mysql:
+  host: mysql
+  port: 3306
+  database: blogdb
+  username: cbblogs
+  password: ""
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 1Gi
+
+ingress:
+  enabled: true
+  ingressClassName: nginx
+  host: chirag-blogs.cb.co
