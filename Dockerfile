@@ -1,19 +1,23 @@
-FROM python:3.10-alpine
+FROM python:3.10
 
 # Set the working directory
 WORKDIR /app
 
 COPY . /app
+
+# Install system dependencies required by mysqlclient
+RUN apt-get update && apt-get install -y \
+    pkg-config \
+    default-libmysqlclient-dev \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
-
-# Expose the port your app runs on
-EXPOSE 5000
 
 # Run the app
 ENV FLASK_APP=app.py
 ENV FLASK_RUN_HOST=0.0.0.0
-ENV FLASK_ENV=development
 
 # Run the Flask app
-CMD ["flask", "run"]
+CMD ["python3", "app.py"]

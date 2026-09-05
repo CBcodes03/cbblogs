@@ -19,12 +19,8 @@ jobs:
         uses: semgrep/semgrep-action@v1
         with:
           config: p/security-audit 
-          # OPTION A: Fail the build on 'error' findings (Default behavior, but good to make explicit)
           failOn: 'error' 
-          
-          # OPTION B: Uncomment the line below instead if you want to stop the workflow 
-          # for BOTH 'warning' and 'error' severities:
-          # failOn: 'warning'
+          failOn: 'warning'
 
       - name: Upload SARIF results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v3

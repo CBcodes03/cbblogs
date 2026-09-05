@@ -12,8 +12,8 @@ import mysql.connector
 
 #functions
 conn = mysql.connector.connect(
-    host="localhost",
-    user="chirag",
+    host="mysql.cbblogs.svc.cluster.local",
+    user="root",
     password="12345678",
     database="blogdb"
 )
@@ -188,6 +188,10 @@ def get_favourites(username):
 
 app = Flask(__name__)
 bcrypt = Bcrypt(app)
+app.config.update(
+    HOST="0.0.0.0",
+    PORT=5000,
+)
 app.secret_key = os.urandom(24)
 app.config['UPLOAD_FOLDER'] = './templates/static/postimages'
 app.config['ALLOWED_EXTENSIONS'] = {'png', 'jpg', 'jpeg', 'gif', 'mp4', 'webm'}

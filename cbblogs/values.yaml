@@ -1,4 +1,4 @@
-replicaCount: 2
+replicaCount: 1
 
 image:
   repository: cbblogs-app
@@ -7,8 +7,7 @@ image:
 
 service:
   type: ClusterIP
-  port: 80
-  targetPort: 4000
+  port: 5000
 
 autoscaling:
   minReplicas: 1
@@ -17,11 +16,32 @@ autoscaling:
   targetMemoryUtilizationPercentage: 80
 
 mysql:
+  enabled: true
+
+  image:
+    repository: mysql
+    tag: "8.0"
+
   host: mysql
   port: 3306
   database: blogdb
   username: cbblogs
-  password: ""
+  password: "12345678"
+
+  rootPassword: "12345678"
+
+  persistence:
+    enabled: true
+    storageClass: standard
+    size: 10Gi
+
+  resources:
+    requests:
+      cpu: 250m
+      memory: 512Mi
+    limits:
+      cpu: "1"
+      memory: 1Gi
 
 resources:
   requests:
@@ -34,4 +54,14 @@ resources:
 ingress:
   enabled: true
   ingressClassName: nginx
-  host: chirag-blogs.cb.co
+  hosts:
+    - host: chirag-blogs.cb.co
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+
+serviceAccount:
+  create: false
+  name: ""
+  annotations: {}
