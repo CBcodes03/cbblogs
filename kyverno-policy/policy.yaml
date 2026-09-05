@@ -1,0 +1,51 @@
+apiVersion: policies.kyverno.io/v1
+kind: ImageValidatingPolicy
+metadata:
+  name: verify-cbblogs-image
+
+spec:
+  evaluation:
+    background:
+      enabled: false
+
+  validationActions:
+    - Deny
+
+  webhookConfiguration:
+    timeoutSeconds: 15
+
+  failurePolicy: Fail
+
+  matchConstraints:
+    resourceRules:
+      - apiGroups:
+          - ""
+        apiVersions:
+          - v1
+        operations:
+          - CREATE
+          - UPDATE
+        resources:
+          - pods
+
+  matchImageReferences:
+    - glob: "docker.io/chirag123456789/cbblogs:*"
+
+  attestors:
+    - name: cbblogs_github_actions
+      cosign:
+        keyless:
+          identities:
+            - issuer: "https://token.actions.githubusercontent.com"
+              subject: "https://github.com/chirag483/cbblogs/.github/workflows/vs_sbom_is.yaml@refs/heads/main"
+
+        ctlog:
+          url: "https://rekor.sigstore.dev"
+
+  validations:
+    - expression: >-
+        images.containers.map(
+          image,
+          verifyImageSignatures(image, [attestors.cbblogs_github_actions])
+        ).all(e, e > 0)
+      message: "Failed image signature verification"
