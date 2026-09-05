@@ -9,12 +9,12 @@ from flask import session
 from flask import send_file, abort
 import os
 import mysql.connector
-
+dbpassowrd = os.getenv("USER")
 #functions
 conn = mysql.connector.connect(
     host="mysql.cbblogs.svc.cluster.local",
     user="root",
-    password="12345678",
+    password="",
     database="blogdb"
 )
 cursor = conn.cursor()
