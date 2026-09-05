@@ -26,7 +26,8 @@ mysql:
   port: 3306
   database: blogdb
   username: cbblogs
-
+  password: ""
+  rootPassword: ""
   persistence:
     enabled: true
     storageClass: standard
