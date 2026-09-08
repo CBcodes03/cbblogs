@@ -19,7 +19,8 @@ jobs:
         uses: semgrep/semgrep-action@v1
         with:
           config: p/security-audit 
-          failOn: 'error'
+          failOn: 'error' 
+
 
       - name: Upload SARIF results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v3
