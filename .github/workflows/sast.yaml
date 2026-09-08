@@ -6,6 +6,11 @@ on:
     types:
       - completed
 
+permissions:
+  contents: read
+  security-events: write
+  actions: read
+
 jobs:
   semgrep-sast:
     name: Semgrep Code Scan
