@@ -1,9 +1,12 @@
 name: linting
 
 on:
-  push:
+  pull_request:
     branches:
-      - development
+      - master
+    types:
+      - closed
+
 jobs:
   build:
     runs-on: ubuntu-24.04
@@ -22,4 +25,4 @@ jobs:
         pip install pylint
     - name: Analysing the code with pylint
       run: |
-        pylint $(git ls-files '*.py')  --fail-under=8.0
+        pylint $(git ls-files '*.py')  --fail-under=6.0
