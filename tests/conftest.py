@@ -7,18 +7,23 @@ from app import app as flask_app
 
 
 @pytest.fixture
-def app():
-    # Create temporary SQLite database
+def app(monkeypatch):
     db_fd, db_path = tempfile.mkstemp(suffix=".db")
 
-    flask_app.config["DATABASE"] = db_path
+    # Redirect sqlite3.connect() to the test database
+    original_connect = sqlite3.connect
+
+    def test_db_connect(*args, **kwargs):
+        return original_connect(db_path, **kwargs)
+
+    monkeypatch.setattr(sqlite3, "connect", test_db_connect)
+
     flask_app.config["TESTING"] = True
     flask_app.config["WTF_CSRF_ENABLED"] = False
 
-    # Connect to SQLite test database
+    # Create test database
     conn = sqlite3.connect(db_path)
 
-    # Create tables
     conn.executescript("""
         CREATE TABLE users (
             id INTEGER PRIMARY KEY,
@@ -54,7 +59,6 @@ def app():
 
     yield flask_app
 
-    # Cleanup test database
     os.close(db_fd)
     os.unlink(db_path)
 
