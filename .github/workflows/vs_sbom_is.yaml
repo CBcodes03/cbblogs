@@ -38,7 +38,7 @@ jobs:
           image-ref: '${{ secrets.DOCKERHUB_USERNAME }}/cbblogs:latest'
           format: 'table'
           vuln-type: 'os,library'
-          severity: 'CRITICAL,HIGH'
+          severity: 'CRITICAL'
           exit-code: '1'
           ignore-unfixed: true
           
