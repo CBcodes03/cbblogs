@@ -32,7 +32,7 @@ jobs:
 
       # STEP 2: Scan the locally built image using Trivy
       - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@0.28.0 # Use a fixed, verified version
+        uses: aquasecurity/trivy-action@v0.28.0 # Use a fixed, verified version
         with:
           image-ref: '${{ secrets.DOCKERHUB_USERNAME }}/cbblogs:latest'
           format: 'table'
