@@ -9,6 +9,7 @@ on:
 jobs:
   build-scan-push:
     runs-on: ubuntu-latest
+    environment: production
     steps:
       - name: Check out the code
         uses: actions/checkout@v4
