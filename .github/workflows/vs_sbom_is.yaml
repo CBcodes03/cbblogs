@@ -32,17 +32,15 @@ jobs:
 
       # STEP 2: Scan the locally built image using Trivy
       - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@v0.28.0 # Use a fixed, verified version
+        uses: aquasecurity/trivy-action@v0.36.0
         with:
           image-ref: '${{ secrets.DOCKERHUB_USERNAME }}/cbblogs:latest'
           format: 'table'
           vuln-type: 'os,library'
-          # CRITICAL and HIGH severity vulnerabilities will trigger the failure gate
-          severity: 'CRITICAL,HIGH' 
-          # exit-code 1 breaks the pipeline if the specified severities are found
-          exit-code: 1 
-          ignore-unfixed: true # Optional: Skips CVEs that don't have a patch available yet
-
+          severity: 'CRITICAL,HIGH'
+          exit-code: '1'
+          ignore-unfixed: true
+          
         # step 3: we will generate a software bill of materials via syft
       - name: Generate SBOM
         uses: anchore/sbom-action@v0
