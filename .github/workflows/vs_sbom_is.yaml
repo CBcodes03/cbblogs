@@ -29,13 +29,13 @@ jobs:
         with:
           context: .
           load: true # Crucial: Saves the image locally so Trivy can access it
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/cbblogs:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/cbblogs:${{ github.event.workflow_run.head_sha }}
 
       # STEP 2: Scan the locally built image using Trivy
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@v0.36.0
         with:
-          image-ref: '${{ secrets.DOCKERHUB_USERNAME }}/cbblogs:latest'
+          image-ref: '${{ secrets.DOCKERHUB_USERNAME }}/cbblogs:${{ github.event.workflow_run.head_sha }}'
           format: 'table'
           vuln-type: 'os,library'
           severity: 'CRITICAL'
@@ -51,12 +51,13 @@ jobs:
           output-file: sbom.json
 
       # STEP 4: Push the image (Only runs if Step 2 passes with exit code 0)
-      - name: Push Docker image
+      - name: Build and push Docker image
         uses: docker/build-push-action@v6
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/cbblogs:${{ github.event.workflow_run.head_sha }}
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/cbblogs:${{ github.event.workflow_run.head_sha }}
       
       
       # STEP 5: SIgn the image
