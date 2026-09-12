@@ -11,7 +11,7 @@ jobs:
     permissions:
       contents: read
       id-token: write
-    runs-on: ubuntu-latest
+    runs-on: python:3.10-slim-bookworm
     environment: production
     steps:
       - name: Check out the code
