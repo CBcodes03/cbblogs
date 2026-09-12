@@ -1,8 +1,8 @@
 replicaCount: 1
 
 image:
-  repository: cbblogs-app
-  tag: local
+  repository: chirag123456789/cbblogs
+  tag: sha256-18cf21bdab89ed31d89d2d1c771454424879517b439df726e65c39221aa48b8b.sig
   pullPolicy: IfNotPresent
 
 service:
