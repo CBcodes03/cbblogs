@@ -14,7 +14,7 @@ dbpassowrd = os.getenv("USER")
 conn = mysql.connector.connect(
     host="mysql.cbblogs.svc.cluster.local",
     user="root",
-    password=os.environ["MYSQL_ROOT_PASSWORD"]
+    password=os.environ["MYSQL_ROOT_PASSWORD"],
     database="blogdb"
 )
 cursor = conn.cursor()
