@@ -1,4 +1,5 @@
-FROM python:3.10-slim-bookworm # slim base image
+# slim base image
+FROM python:3.10-slim-bookworm 
 
 # Set the working directory
 WORKDIR /app
