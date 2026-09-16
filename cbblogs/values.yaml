@@ -2,7 +2,7 @@ replicaCount: 1
 
 image:
   repository: chirag123456789/cbblogs
-  tag: c988277f34057e25fbe78ba9d1bbd677628274cf
+  tag: aa1d89590068db70f73e3d9ab0cefeea8c439ad2
   pullPolicy: IfNotPresent
 
 service:
