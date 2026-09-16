@@ -58,6 +58,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
+          platforms: linux/arm64
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/cbblogs:${{ github.event.workflow_run.head_sha }}
