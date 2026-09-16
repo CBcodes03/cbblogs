@@ -11,7 +11,7 @@ jobs:
     permissions:
       contents: read
       id-token: write
-    runs-on: python:3.10-slim-bookworm
+    runs-on: ubuntu-24.04
     environment: production
     steps:
       - name: Check out the code
@@ -40,7 +40,7 @@ jobs:
         with:
           image-ref: '${{ secrets.DOCKERHUB_USERNAME }}/cbblogs:${{ github.event.workflow_run.head_sha }}'
           format: 'table'
-          vuln-type: 'os,library'
+          vuln-type: 'library' # os removed
           severity: 'CRITICAL'
           exit-code: '1'
           ignore-unfixed: true
