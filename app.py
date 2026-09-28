@@ -72,8 +72,9 @@ def setupdb():
         seed_admin='''
         INSERT INTO users(name, email, password, is_admin)
         VALUES("admin", "admin@gmail.com", "1234", 1
-        ) ENGINE=InnoDB;
+        );
         '''
+        #seeding admin
         cursor.execute(posts)
         cursor.execute(post_sections)
         cursor.execute(createusertable)
