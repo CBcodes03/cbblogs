@@ -71,8 +71,8 @@ def setupdb():
         ) ENGINE=InnoDB;'''
         seed_admin='''
         INSERT INTO users(name, email, password, is_admin)
-        VALUES("admin", "admin@gmail.com", "1234", 1
-        );
+        VALUES("admin", "admin@gmail.com", "1234", 1)
+        ON DUPLICATE KEY UPDATE email = email;
         '''
         #seeding admin
         cursor.execute(posts)
