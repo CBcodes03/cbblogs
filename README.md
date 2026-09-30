@@ -456,38 +456,6 @@ Although the primary focus of this project is the DevSecOps platform, CBBlogs it
 
 ---
 
-# 📁 Project Structure
-
-```text
-cbblogs/
-│
-├── .github/
-│   └── workflows/
-│       ├── linting.yml
-│       ├── sast.yml
-│       ├── run_tests.yml
-│       └── docker-image.yml
-│
-├── cbblogs/
-│   ├── Chart.yaml
-│   ├── values.yaml
-│   └── templates/
-│       ├── deployment.yaml
-│       ├── service.yaml
-│       └── ...
-│
-├── tests/
-│   └── test_app.py
-│
-├── app.py
-├── Dockerfile
-├── requirements.txt
-├── requirements-dev.txt
-├── sbom.json
-└── README.md
-```
-
----
 
 # 🚀 Deploy Locally with Helm
 
