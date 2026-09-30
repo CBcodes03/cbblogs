@@ -37,7 +37,7 @@ spec:
         keyless:
           identities:
             - issuer: "https://token.actions.githubusercontent.com"
-              subject: "https://github.com/chirag483/cbblogs/.github/workflows/vs_sbom_is.yaml@refs/heads/main"
+              subject: "https://github.com/CBcodes03/cbblogs/.github/workflows/vs_sbom_is.yaml@refs/heads/main"
 
         ctlog:
           url: "https://rekor.sigstore.dev"
