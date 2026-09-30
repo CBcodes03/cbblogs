@@ -456,32 +456,6 @@ Although the primary focus of this project is the DevSecOps platform, CBBlogs it
 
 ---
 
-
-# 🚀 Deploy Locally with Helm
-
-The application can be deployed using the included Helm chart.
-
-```bash
-helm install cbblogs ./cbblogs
-```
-
-For local development where a database password is required:
-
-```bash
-helm install cbblogs ./cbblogs --set mysql.password=$dbpass
-```
-
-> ⚠️ Avoid committing passwords or other sensitive values into Git. For production deployments, secrets should be supplied through the project's secret-management workflow using OpenBao and External Secrets.
-
-Check the deployment:
-
-```bash
-kubectl get pods
-kubectl get svc
-```
-
----
-
 # 🔒 Security Model
 
 The project implements security across multiple layers:
@@ -502,49 +476,6 @@ The project implements security across multiple layers:
 | Runtime | Falco |
 
 The objective is to avoid relying on a single security mechanism and instead establish multiple security controls throughout the delivery lifecycle.
-
----
-
-# 🎯 Project Objectives
-
-This project demonstrates:
-
-- 🔐 Shift-left security
-- 🧪 Automated application testing
-- 🐳 Secure container builds
-- 🔎 Container vulnerability scanning
-- 📦 Software Bill of Materials generation
-- ✍️ Container image signing
-- 🚢 GitOps-based deployments
-- ☸️ Kubernetes policy enforcement
-- 🔑 Centralized secret management
-- 🛡️ Runtime security monitoring
-- 🏗️ ARM64 container deployment
-
----
-
-# 📜 License
-
-This project is open-source and available under the **MIT License**.
-
----
-
-# 👨‍💻 Author
-
-**CBcodes03**
-
-🔗 https://github.com/CBcodes03
-
----
-
-# ⭐ Support
-
-If you find this project useful:
-
-- ⭐ Star the repository
-- 🍴 Fork the project
-- 🚀 Build your own DevSecOps pipeline
-- 💡 Use the architecture as a reference for your own projects
 
 ---
 
