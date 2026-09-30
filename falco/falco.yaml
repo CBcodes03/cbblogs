@@ -1,0 +1,6 @@
+apiVersion: falco.org/v1alpha1
+kind: Falco
+metadata:
+  name: cbblogs-falco
+  namespace: falco
+spec: {}
